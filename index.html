@@ -286,6 +286,7 @@
     <section class="hero">
       <div class="brand">Neena.3D</div>
       <h1>حصنك من الأذكار</h1>
+      <p class="subtitle">اختر القسم الذي تريده، واقرأ الأذكار أو استمع إليها بسهولة.</p>
     </section>
 
     <section id="homeScreen" class="main-choices">
@@ -312,7 +313,7 @@
       <h2 id="smartTitle">🎧 الاستماع للأذكار</h2>
       <div class="smart-audio-box">
         <span class="time-pill" id="timeStatus">جاري تحديد الوقت...</span>
-        <p class="note" id="audioNote">الصفحة تختار أذكار الصباح أو المساء حسب وقت الهاتف.</p>
+        <p class="note" id="audioNote">اختر القسم الذي ترغب في الاستماع إليه.</p>
         <button class="play-btn" id="playBtn" onclick="playSelectedAudio()">▶️ تشغيل الأذكار</button>
       </div>
       <audio id="azkarAudio" controls preload="none">
@@ -420,7 +421,7 @@
       const names = { morning: 'أذكار الصباح', evening: 'أذكار المساء', travel: 'أذكار السفر' };
       playBtn.textContent = '▶️ تشغيل ' + names[type];
       smartTitle.textContent = '🎧 ' + names[type];
-      audioNote.textXontent = ' '
+      audioNote.textContent = 'يمكنك الاستماع إلى المقطع الصوتي الخاص بهذا القسم.';
     }
 
     function hideAllSections() {
@@ -440,6 +441,7 @@
         document.getElementById('travel').classList.remove('hidden');
         document.getElementById('timeStatus').textContent = 'أذكار السفر';
         setAudio('travel');
+        document.getElementById('audioNote').textContent = 'يمكنك الاستماع إلى أذكار السفر.';
       }
     }
 
