@@ -406,10 +406,21 @@
       travel: 'travel-athkar.mp3'
     };
 
+    const azkarNames = {
+      morning: 'أذكار الصباح',
+      evening: 'أذكار المساء',
+      travel: 'أذكار السفر'
+    };
+
+    function updatePlayButton(isPlaying) {
+      const playBtn = document.getElementById('playBtn');
+      playBtn.textContent = (isPlaying ? '⏸️ إيقاف ' : '▶️ تشغيل ') + azkarNames[selectedAzkar];
+      playBtn.setAttribute('aria-pressed', String(isPlaying));
+    }
+
     function setAudio(type) {
       const audio = document.getElementById('azkarAudio');
       const source = document.getElementById('audioSource');
-      const playBtn = document.getElementById('playBtn');
       const smartTitle = document.getElementById('smartTitle');
       const audioNote = document.getElementById('audioNote');
 
@@ -418,9 +429,8 @@
       source.src = audioFiles[type];
       audio.load();
 
-      const names = { morning: 'أذكار الصباح', evening: 'أذكار المساء', travel: 'أذكار السفر' };
-      playBtn.textContent = '▶️ تشغيل ' + names[type];
-      smartTitle.textContent = '🎧 ' + names[type];
+      updatePlayButton(false);
+      smartTitle.textContent = '🎧 ' + azkarNames[type];
       audioNote.textContent = 'يمكنك الاستماع إلى المقطع الصوتي الخاص بهذا القسم.';
     }
 
@@ -465,9 +475,13 @@
 
     function playSelectedAudio() {
       const audio = document.getElementById('azkarAudio');
-      audio.play().catch(() => {
-        alert('اضغط زر التشغيل داخل مشغل الصوت إذا لم يبدأ الصوت.');
-      });
+      if (audio.paused) {
+        audio.play().catch(() => {
+          alert('اضغط زر التشغيل داخل مشغل الصوت إذا لم يبدأ الصوت.');
+        });
+      } else {
+        audio.pause();
+      }
     }
 
     function openByTime() {
@@ -496,6 +510,14 @@
       if (current === total) card.classList.add('done');
       else card.classList.remove('done');
     }
+
+    const azkarAudio = document.getElementById('azkarAudio');
+    azkarAudio.addEventListener('play', () => updatePlayButton(true));
+    azkarAudio.addEventListener('pause', () => updatePlayButton(false));
+    azkarAudio.addEventListener('ended', () => {
+      azkarAudio.currentTime = 0;
+      updatePlayButton(false);
+    });
 
     window.addEventListener('load', goHome);
   </script>
